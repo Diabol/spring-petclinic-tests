@@ -1,0 +1,40 @@
+apply plugin: 'java'
+//apply plugin: 'idea'
+apply plugin: 'eclipse'
+group = 'petclinic.selenium'
+
+ext {
+    projTitle = 'Test Parallel MultiWindow'
+    projVersion = '1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.+'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.+'
+    compile group: 'junit', name: 'junit', version: '4.+'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
+}
+
+tasks.withType(Test) {
+    jvmArgs '-Xms128m', '-Xmx1024m', '-XX:MaxPermSize=128m'
+    maxParallelForks = 4
+    testLogging.showStandardStreams = true
+    
+	// System properties passed to tests
+	systemProperties = [
+		'base.url': System.getProperty('base.url', 'http://localhost:8080/petclinic')
+	]
+	systemProperties['browserType'] = 'firefox'
+
+	// initial browser size and position
+	systemProperties['windowXPosition'] = '100'
+	systemProperties['windowYPosition'] = '40'
+	systemProperties['windowWidth'] = '400'
+	systemProperties['windowHeight'] = '600'
+}
+
