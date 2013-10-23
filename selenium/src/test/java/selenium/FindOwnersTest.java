@@ -20,7 +20,7 @@ public class FindOwnersTest {
 		driver.get(System.getProperty("base.url", "http://localhost:8080/petclinic"));
 		
 		driver.findElement(By.partialLinkText("Find owners")).click();
-		driver.findElement(By.partialLinkText("Add Owner")).click();
+		driver.findElement(By.linkText("Add Owner")).click();
 		
 		driver.findElement(By.id("firstName")).sendKeys("Rickard");
 		driver.findElement(By.id("lastName")).sendKeys("von Essen");
