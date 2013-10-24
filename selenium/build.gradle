@@ -3,6 +3,10 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 group = 'petclinic.selenium'
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
+
 ext {
     projTitle = 'Test Parallel MultiWindow'
     projVersion = '1.0'
