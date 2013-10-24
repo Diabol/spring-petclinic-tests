@@ -17,7 +17,7 @@ public class FindOwnersTest {
 	
 	@Test
 	public void find_owners_should_list_me() {
-		driver.get(System.getProperty("base.url", "http://localhost:8080/petclinic"));
+		driver.get(Utils.getBaseUrl());
 		
 		driver.findElement(By.partialLinkText("Find owners")).click();
 		driver.findElement(By.linkText("Add Owner")).click();

@@ -27,10 +27,10 @@ tasks.withType(Test) {
     
 	// System properties passed to tests
 	systemProperties = [
-		'base.url': System.getProperty('base.url', 'http://localhost:8080/petclinic')
+		'base.url': System.getProperty('base.url', 'http://localhost:8080/petclinic'),
+		'browserType': System.getProperty('browserType', 'firefox')
 	]
-	systemProperties['browserType'] = 'firefox'
-
+	
 	// initial browser size and position
 	systemProperties['windowXPosition'] = '100'
 	systemProperties['windowYPosition'] = '40'
