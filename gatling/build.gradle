@@ -1,0 +1,47 @@
+apply plugin: 'scala'
+//apply plugin: 'idea'
+apply plugin: 'eclipse'
+group = 'petclinic.gatling'
+
+repositories {
+    mavenCentral()
+    maven {
+      url 'http://repository.excilys.com/content/groups/public'
+    }
+}
+
+dependencies {
+    testCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.0.0-M3a'
+}
+
+task gatling(dependsOn: 'compileTestScala') << {
+  logger.lifecycle(" ---- Executing all Gatling scenarios from: ${sourceSets.test.output.classesDir} ----")
+  sourceSets.test.output.classesDir.eachFileRecurse { file ->
+    if (file.isFile()) {
+      //Remove the full path, .class and replace / with a .
+      logger.debug("Tranformed file ${file} into")
+      def gatlingScenarioClass = (file.getPath() - (sourceSets.test.output.classesDir.getPath() + File.separator) - '.class')
+                                                      .replace(File.separator, '.')
+
+      logger.debug("Tranformed file ${file} into scenario class ${gatlingScenarioClass}")
+      javaexec {
+             // I do not use this so
+             main = 'io.gatling.app.Gatling'
+             classpath = sourceSets.test.output + sourceSets.test.runtimeClasspath
+             args  '-sbf',
+                   sourceSets.test.output.classesDir,
+                   '-s',
+                   gatlingScenarioClass,
+                   '-rf',
+                   'build/reports/gatling'
+            systemProperties['base.url'] = System.getProperty('base.url', 'http://localhost:8080/petclinic')
+      }
+    }
+  }
+
+  logger.lifecycle(" ---- Done executing all Gatling scenarios ----")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
