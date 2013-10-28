@@ -16,7 +16,7 @@ val scn = scenario("Basic Load Test Scenario")
   .group("Find Owner") {
     exec( http("request_1") .get("/") .check(status.is(200)))
     .exec( http("request_2") .get("/owners/find.html") .check(status.is(200)))
-    .exec( http("request_3") .get("/owners.html").queryParam("lastName", "von Essen") .check(status.is(200)))
+    .exec( http("request_3") .get("/owners.html").queryParam("lastName", "Coleman") .check(status.is(302)))
   }
 
   setUp(scn.inject(ramp(3 users) over (10 seconds)))
